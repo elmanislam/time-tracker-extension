@@ -15,7 +15,7 @@ chrome.tabs.onUpdated.addListener(getCurrentTab);
 chrome.windows.onFocusChanged.addListener(getCurrentTab);
 window.addEventListener("click", getCurrentTab);
 
-export class Domain {
+class Domain {
   constructor(url, favIconUrl) {
     this.url = url;
     this.favIconUrl = favIconUrl;
@@ -29,7 +29,7 @@ export class Domain {
   }
 }
 
-export let domains = [];
+let domains = [];
 domains.push(new Domain("default", null));
 let currentDomain = "default";
 async function getCurrentTab(window) {
