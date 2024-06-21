@@ -1,7 +1,7 @@
-export function createDomain(name, id) {
+export function createDomain(domainName, domainId) {
   // attributes
-  const domainName = name;
-  const domainId = id;
+  const name = domainName;
+  const id = domainId;
 
   let totalTime = 0; // total time spent on the domain in seconds
   let startTime = 0; // to keep track of the start time
@@ -15,10 +15,12 @@ export function createDomain(name, id) {
   }
 
   function stopTimer() {
+    if (!stopwatchInterval) return;
+
     clearInterval(stopwatchInterval); // stop the interval
+
     totalTime += new Date().getTime() - startTime; // calculate elapsed paused time
     stopwatchInterval = null; // reset the interval variable
-    console.log("you spent ", totalTime, "ms on this site");
   }
 
   function updateTimer() {
@@ -32,6 +34,12 @@ export function createDomain(name, id) {
     updateTimer,
     get totalTime() {
       return totalTime;
+    },
+    get name() {
+      return name;
+    },
+    get id() {
+      return id;
     },
   };
 }
