@@ -9,7 +9,7 @@ chrome.storage.local.get(["currentDomainName"]).then((result) => {
   currentDomainName = result.currentDomainName;
   document.getElementById("domainName").textContent = currentDomainName;
 
-  let currentDom = domList.find((dom) => dom.name === currentDomainName);
+  let currentDom = domList[currentDomainName];
 
   document.getElementById("time").textContent = currentDom.totalTime;
 });
