@@ -28,6 +28,11 @@ export function createDomain(domainName, domainId) {
     var elapsedTime = currentTime - startTime; // calculate elapsed time in milliseconds
   }
 
+  function formatTime() {
+    let ms = totalTime;
+    let sec = Math.round(totalTime / 1000);
+  }
+
   return {
     startTimer,
     stopTimer,

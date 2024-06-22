@@ -7,6 +7,7 @@ chrome.windows.onFocusChanged.addListener(getCurrentTab);
 let currentDomain = "default";
 let domainList = {};
 let count = 0;
+
 async function getCurrentTab(window) {
   // check if no window is open or focused
   if (window == chrome.windows.WINDOW_ID_NONE) {

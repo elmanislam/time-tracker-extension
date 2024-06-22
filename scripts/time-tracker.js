@@ -10,6 +10,6 @@ chrome.storage.local.get(["currentDomainName"]).then((result) => {
   document.getElementById("domainName").textContent = currentDomainName;
 
   let currentDom = domList[currentDomainName];
-
+   
   document.getElementById("time").textContent = currentDom.totalTime;
 });
