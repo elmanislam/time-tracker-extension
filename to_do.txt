@@ -1,0 +1,17 @@
+ Author: Elman I.
+ Email: elmanislam123@gmail.com
+
+ Creation Date: 2024-06-23 11:51:42
+ Last Modification Date: 2024-06-23 12:02:23
+
+
+TO DO
+
+- Fix service worker inactive bug
+- Fix timer not starting on new tab bug
+   - timer only starts after you click the extension icon on 
+
+- Fix  'document.getElementById("domainName").textContent' error
+- Add error handling in all files
+
+- Create test cases

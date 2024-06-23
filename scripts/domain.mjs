@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:57:28
- Last Modification Date: 2024-06-23 11:11:32
+ Last Modification Date: 2024-06-23 16:02:35
 
 *********************************************/
 
@@ -15,11 +15,11 @@
  * @returns domain object with timer methods and domain information
  */
 
-export function createDomain(domainName, domainId) {
+export function createDomain(domainName, domainId, favIconUrl) {
   // attributes
   const name = domainName;
   const id = domainId;
-
+  const icon = favIconUrl;
   let totalTime = 0; // total time spent on the domain in seconds
   let startTime = 0; // to keep track of the start time
   let stopwatchInterval; // to keep track of the interval
@@ -68,6 +68,9 @@ export function createDomain(domainName, domainId) {
     },
     get id() {
       return id;
+    },
+    get icon() {
+      return icon;
     },
   };
 }
