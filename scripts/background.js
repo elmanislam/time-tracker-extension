@@ -3,11 +3,11 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-06-23 11:07:06
+ Last Modification Date: 2024-06-23 16:02:26
 
 *********************************************/
 
-import { createDomain } from "./scripts/domain.mjs";
+import { createDomain } from "./domain.mjs";
 
 chrome.tabs.onActivated.addListener(getCurrentTab);
 chrome.tabs.onUpdated.addListener(getCurrentTab);
