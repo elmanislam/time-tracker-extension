@@ -70,7 +70,7 @@ header {
   padding: 1em;
 
   display: flex;
-  align-items: space-evenly;
+  align-items: center;
   justify-content: flex-start;
   gap: 10px;
   flex-flow: row nowrap;

@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-06-23 16:02:26
+ Last Modification Date: 2024-06-23 16:20:22
 
 *********************************************/
 
@@ -24,8 +24,8 @@ async function getCurrentTab(window) {
     if (dom) dom.stopTimer();
     currentDomain = "default";
     setDomainName();
+    // no tab is being focused
 
-    console.log("no tab is being focused");
     return;
   }
 
@@ -33,26 +33,22 @@ async function getCurrentTab(window) {
   let [tab] = await chrome.tabs.query(queryOptions);
   if (tab) {
     let dom = domainList[currentDomain];
-    if (dom) {
-      console.log(
-        `You spent ${Math.round(dom.totalTime / 1000)} sec on ${dom.name}`
-      );
-      dom.stopTimer();
-    }
+    if (dom) dom.stopTimer();
+
     currentDomain = getDomainName(tab);
 
     dom = domainList[currentDomain];
     if (!dom) {
-      const tempDomain = createDomain(currentDomain, count++);
+      const tempDomain = createDomain(currentDomain, count++, tab.favIconUrl);
       tempDomain.startTimer();
       domainList[currentDomain] = tempDomain;
       console.log("A new domain called ", tempDomain.name, " has been added");
     } else {
       dom.startTimer();
-      console.log("Your domain is now ", dom.name);
+      console.log("Your domain is now ", dom);
+      console.log("icon url: ", dom.icon);
     }
     storeDomainList();
-    console.log("domain list: ", domainList);
     setDomainName();
   }
 }
@@ -70,7 +66,7 @@ function storeDomainList() {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.greeting === "hello") {
-    console.log("hello there");
+    //console.log("hello there");
   }
   // Return true to indicate you want to send a response asynchronously
   return true;
