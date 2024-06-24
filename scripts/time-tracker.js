@@ -3,45 +3,48 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:58:34
- Last Modification Date: 2024-06-23 16:22:22
+ Last Modification Date: 2024-06-24 19:51:23
 
-
+View Extension index page here --> chrome-extension://gffnjaobgldhllbkpkijfdnmllmklcib/index.html
 *********************************************/
+const readLocalStorage = async (key) => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get([key], function (result) {
+      if (result[key] === undefined) {
+        reject();
+      } else {
+        resolve(result[key]);
+      }
+    });
+  });
+};
 
-let domList;
-let currentDomainName;
-chrome.storage.local.get(["domList"]).then((result) => {
-  domList = result.domList;
-});
+async function getData() {
+  let domainList = await readLocalStorage("domList");
+  let currDomName = await readLocalStorage("currentDomainName");
 
-chrome.storage.local.get(["currentDomainName"]).then((result) => {
-  currentDomainName = result.currentDomainName;
-  //  document.getElementById("domainName").textContent = currentDomainName;
-
-  let currentDom = domList[currentDomainName];
-  console.log("current Dom: ", currentDom);
-  //  document.getElementById("time").textContent = currentDom.totalTime;
-  makeDomainCard(currentDom);
-});
+  currDom = domainList[currDomName];
+  if (!currDom) return;
+  makeDomainCard(currDom);
+}
 
 function makeDomainCard(currentDom) {
-  const domainCard = document.createElement("div");
-  domainCard.classList.add("domain-card");
+  const template = document.getElementById("domain-card-template");
+  if (!template) return;
+  const domainCard = template.content.cloneNode(true);
+  console.log(currentDom.name);
+  domainCard.querySelector(".domain-icon").src = currentDom.icon;
+  if (currentDom.name === "google") {
+    domainCard.querySelector(".domain-icon").src = "../img/logo-32.png";
+  }
 
-  // create img tag for icon
-  const icon = document.createElement("img");
-  icon.src = currentDom.icon;
-  icon.classList.add("icon-32");
-
-  console.log("your icon element: ", icon);
-
-  domainCard.appendChild(icon);
-  const domainNameHeader = document.createElement("h3");
-  domainNameHeader.textContent = currentDom.name;
-  domainCard.appendChild(domainNameHeader);
-
+  domainCard.querySelector(".domain-name").textContent = currentDom.name;
+  domainCard.querySelector(".domain-name").name = currentDom.name;
+  domainCard.querySelector(".total-time").textContent =
+    currentDom.formattedTime;
   document.body.appendChild(domainCard);
 }
+
 /*
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("send").addEventListener("click", function () {
@@ -50,3 +53,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 }); */
+
+getData();

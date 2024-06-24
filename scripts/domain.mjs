@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:57:28
- Last Modification Date: 2024-06-23 16:02:35
+ Last Modification Date: 2024-06-23 22:58:43
 
 *********************************************/
 
@@ -19,11 +19,11 @@ export function createDomain(domainName, domainId, favIconUrl) {
   // attributes
   const name = domainName;
   const id = domainId;
-  const icon = favIconUrl;
+  const icon = favIconUrl || "../img/no-icon-32.png";
   let totalTime = 0; // total time spent on the domain in seconds
   let startTime = 0; // to keep track of the start time
   let stopwatchInterval; // to keep track of the interval
-
+  let formattedTime = "";
   function startTimer() {
     if (!stopwatchInterval) {
       startTime = new Date().getTime();
@@ -45,23 +45,26 @@ export function createDomain(domainName, domainId, favIconUrl) {
     var elapsedTime = currentTime - startTime; // calculate elapsed time in milliseconds
   }
 
-  function getFormattedTime() {
+  function formatTime() {
     let ms = totalTime;
     let sec = Math.round(ms / 1000);
     let min = Math.floor(sec / 60);
     let hour = Math.floor(min / 60);
-    if (min <= 0) return `${sec} sec`;
-    if (hour <= 0) return `${min} min ${sec} sec`;
-    else return `${hour} hr ${min} min`;
+    if (min <= 0) formattedTime = `${sec} sec`;
+    else if (hour <= 0) formattedTime = `${min} min ${sec} sec`;
+    else formattedTime = `${hour} hr ${min} min`;
   }
 
   return {
     startTimer,
     stopTimer,
     updateTimer,
-    getFormattedTime,
+    formatTime,
     get totalTime() {
       return totalTime;
+    },
+    get formattedTime() {
+      return formattedTime;
     },
     get name() {
       return name;

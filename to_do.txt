@@ -2,7 +2,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-23 11:51:42
- Last Modification Date: 2024-06-23 12:02:23
+ Last Modification Date: 2024-06-24 18:05:53
 
 
 TO DO
@@ -13,5 +13,5 @@ TO DO
 
 - Fix  'document.getElementById("domainName").textContent' error
 - Add error handling in all files
-
+- Reload time history on reboot
 - Create test cases

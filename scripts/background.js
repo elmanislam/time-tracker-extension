@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-06-23 16:20:22
+ Last Modification Date: 2024-06-24 19:37:47
 
 *********************************************/
 
@@ -21,7 +21,11 @@ async function getCurrentTab(window) {
   // check if no window is open or focused
   if (window == chrome.windows.WINDOW_ID_NONE) {
     let dom = domainList[currentDomain];
-    if (dom) dom.stopTimer();
+    if (dom) {
+      dom.stopTimer();
+      dom.formatTime();
+    }
+
     currentDomain = "default";
     setDomainName();
     // no tab is being focused
@@ -33,7 +37,10 @@ async function getCurrentTab(window) {
   let [tab] = await chrome.tabs.query(queryOptions);
   if (tab) {
     let dom = domainList[currentDomain];
-    if (dom) dom.stopTimer();
+    if (dom) {
+      dom.stopTimer();
+      dom.formatTime();
+    }
 
     currentDomain = getDomainName(tab);
 
@@ -41,13 +48,12 @@ async function getCurrentTab(window) {
     if (!dom) {
       const tempDomain = createDomain(currentDomain, count++, tab.favIconUrl);
       tempDomain.startTimer();
+
       domainList[currentDomain] = tempDomain;
-      console.log("A new domain called ", tempDomain.name, " has been added");
     } else {
       dom.startTimer();
-      console.log("Your domain is now ", dom);
-      console.log("icon url: ", dom.icon);
     }
+
     storeDomainList();
     setDomainName();
   }

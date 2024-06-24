@@ -3,23 +3,32 @@
 
 <head>
    <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
    <meta name="viewport" content="width=device-width, initial-scale=1" />
    <title>Time Tracker</title>
    <link href="styles/styles.css" rel="stylesheet" />
-
+   <script src="scripts/time-tracker.js"></script>
 </head>
 
 <body class="first-color">
-   <script src="scripts/time-tracker.js" defer></script>
    <header>
       <img src="img/logo-32.png" />
       <h1><strong>Time</strong> Tracker</h1>
    </header>
-
    <div class="card">
       <h2>Your Top Sites</h2>
    </div>
-</body>
 
+   <template id="domain-card-template">
+      <div class="domain-card">
+         <img class="domain-icon icon-32" />
+         <div class="info">
+            <h3 class="domain-name" style="font-weight: 600">Domain Name</h3>
+            <p class="total-time" style="font-style: oblique">Total Time</p>
+         </div>
+      </div>
+   </template>
+
+</body>
 
 </html>
