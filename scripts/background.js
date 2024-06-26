@@ -3,11 +3,11 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-06-24 19:37:47
+ Last Modification Date: 2024-06-26 11:23:46
 
 *********************************************/
 
-import { createDomain } from "./domain.mjs";
+import { createDomain, DEFAULT_ICON } from "./domain.mjs";
 
 chrome.tabs.onActivated.addListener(getCurrentTab);
 chrome.tabs.onUpdated.addListener(getCurrentTab);
@@ -16,18 +16,14 @@ chrome.windows.onFocusChanged.addListener(getCurrentTab);
 let currentDomain = "default";
 let domainList = {};
 let count = 0;
-
 async function getCurrentTab(window) {
   // check if no window is open or focused
   if (window == chrome.windows.WINDOW_ID_NONE) {
     let dom = domainList[currentDomain];
-    if (dom) {
-      dom.stopTimer();
-      dom.formatTime();
-    }
+    if (dom) dom.stopTimer();
 
-    currentDomain = "default";
     setDomainName();
+    storeDomainList();
     // no tab is being focused
 
     return;
@@ -35,31 +31,37 @@ async function getCurrentTab(window) {
 
   let queryOptions = { active: true, lastFocusedWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
-  if (tab) {
-    let dom = domainList[currentDomain];
-    if (dom) {
-      dom.stopTimer();
-      dom.formatTime();
-    }
 
-    currentDomain = getDomainName(tab);
+  // there are no tabs
+  if (!tab) return;
 
-    dom = domainList[currentDomain];
-    if (!dom) {
-      const tempDomain = createDomain(currentDomain, count++, tab.favIconUrl);
-      tempDomain.startTimer();
+  let dom = domainList[currentDomain];
+  if (dom) dom.stopTimer();
 
-      domainList[currentDomain] = tempDomain;
-    } else {
-      dom.startTimer();
-    }
+  currentDomain = getDomainName(tab);
 
-    storeDomainList();
-    setDomainName();
+  // page is loading or is invalid
+  if (!currentDomain) return;
+
+  dom = domainList[currentDomain];
+
+  if (!dom) {
+    const tempDomain = createDomain(currentDomain, count++, tab.favIconUrl);
+    tempDomain.startTimer();
+    domainList[currentDomain] = tempDomain;
+  } else {
+    // Update icon if it was not added properly
+    if (dom.icon === DEFAULT_ICON && tab.favIconUrl.length !== 0)
+      dom.icon(tab.favIconUrl);
+
+    dom.startTimer();
   }
+
+  setDomainName();
+  storeDomainList();
 }
 function getDomainName(tab) {
-  return tab.url.replace(/.+\/\/|www.|\..+/g, "");
+  return tab.url.replace(/.+\/\/|www.|\..+/g, "").trim();
 }
 
 function setDomainName() {
@@ -71,9 +73,14 @@ function storeDomainList() {
 }
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.greeting === "hello") {
-    //console.log("hello there");
+  if (request.popup) {
+    let dom = domainList[currentDomain];
+    if (dom) {
+      dom.stopTimer();
+      setDomainName();
+      storeDomainList();
+    }
   }
   // Return true to indicate you want to send a response asynchronously
-  return true;
+  sendResponse("good");
 });
