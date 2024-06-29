@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-06-29 15:22:38
+ Last Modification Date: 2024-06-29 16:11:56
 
 *********************************************/
 import { createDomain, DEFAULT_ICON } from "./domain.mjs";
@@ -32,7 +32,7 @@ async function getCurrentTab(window) {
     return;
   }
 
-  let queryOptions = { active: true, lastFocusedWindow: true };/
+  let queryOptions = { active: true, lastFocusedWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
 
   // there are no tabs
