@@ -3,11 +3,14 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-06-26 11:23:46
+ Last Modification Date: 2024-06-29 15:22:38
 
 *********************************************/
-
 import { createDomain, DEFAULT_ICON } from "./domain.mjs";
+
+chrome.runtime.onInstalled.addListener(() => {
+  console.log("you just installed time tracker");
+});
 
 chrome.tabs.onActivated.addListener(getCurrentTab);
 chrome.tabs.onUpdated.addListener(getCurrentTab);
@@ -29,7 +32,7 @@ async function getCurrentTab(window) {
     return;
   }
 
-  let queryOptions = { active: true, lastFocusedWindow: true };
+  let queryOptions = { active: true, lastFocusedWindow: true };/
   let [tab] = await chrome.tabs.query(queryOptions);
 
   // there are no tabs
@@ -38,7 +41,7 @@ async function getCurrentTab(window) {
   let dom = domainList[currentDomain];
   if (dom) dom.stopTimer();
 
-  currentDomain = getDomainName(tab);
+  currentDomain = getDomainName(tab.url);
 
   // page is loading or is invalid
   if (!currentDomain) return;
@@ -51,8 +54,8 @@ async function getCurrentTab(window) {
     domainList[currentDomain] = tempDomain;
   } else {
     // Update icon if it was not added properly
-    if (dom.icon === DEFAULT_ICON && tab.favIconUrl.length !== 0)
-      dom.icon(tab.favIconUrl);
+    if (dom.icon === DEFAULT_ICON && tab.favIconUrl && tab.favIconUrl !== "")
+      dom.updateIcon(tab.favIconUrl);
 
     dom.startTimer();
   }
@@ -60,8 +63,15 @@ async function getCurrentTab(window) {
   setDomainName();
   storeDomainList();
 }
-function getDomainName(tab) {
-  return tab.url.replace(/.+\/\/|www.|\..+/g, "").trim();
+function getDomainName(url) {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.hostname;
+  } catch (e) {
+    console.error(`Invalid URL: ${url}`, e);
+    return null;
+  }
+  // return tab.url.replace(/.+\/\/|www.|\..+/g, "").trim();
 }
 
 function setDomainName() {

@@ -5,7 +5,7 @@
 }
 
 .second-color {
-  background: #f9f9f9;
+  background: #4687ff;
 }
 
 .third-color {
@@ -63,12 +63,14 @@ header {
 .card {
   background-color: white;
   padding: 0.75em;
-  border-bottom: 2px inset rgb(0, 69, 24);
+  border-bottom: 2px inset rgb(0, 0, 69);
 }
 
 .domain-card {
   padding-top: 1em;
   padding-bottom: 1em;
+  background-color: white;
+  border-bottom: 2px inset rgb(0, 69, 24);
 
   display: flex;
   align-items: center;

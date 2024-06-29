@@ -3,11 +3,10 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:58:34
- Last Modification Date: 2024-06-26 11:45:51
+ Last Modification Date: 2024-06-26 14:00:39
 
 View Extension index page here --> chrome-extension://gffnjaobgldhllbkpkijfdnmllmklcib/index.html
 *********************************************/
-
 const readLocalStorage = async (key) => {
   return new Promise((resolve, reject) => {
     chrome.storage.local.get([key], function (result) {
