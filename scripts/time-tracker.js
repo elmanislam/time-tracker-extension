@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:58:34
- Last Modification Date: 2024-06-26 14:00:39
+ Last Modification Date: 2024-06-30 13:12:45
 
 View Extension index page here --> chrome-extension://gffnjaobgldhllbkpkijfdnmllmklcib/index.html
 *********************************************/
@@ -21,13 +21,13 @@ const readLocalStorage = async (key) => {
 
 async function getData() {
   let domainList = await readLocalStorage("domList");
+  console.log("domainList: ", domainList);
   if (!domainList) return;
 
   const sortedList = getSortedIndexes(domainList);
 
   let i = 0;
   sortedList.forEach((domainName) => {
-    console.log(domainName);
     if (i >= 5) return;
     makeDomainCard(domainList[domainName]);
     i++;
@@ -39,7 +39,7 @@ function makeDomainCard(dom) {
   if (!dom || !template) return;
   const domainCard = template.content.cloneNode(true);
   domainCard.querySelector(".domain-icon").src = dom.icon;
-  if (dom.name === "google") {
+  if (dom.name === "google.com") {
     domainCard.querySelector(".domain-icon").src = "../img/logo-32.png";
   }
 

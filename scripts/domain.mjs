@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:57:28
- Last Modification Date: 2024-06-29 16:09:32
+ Last Modification Date: 2024-06-30 20:52:10
 
 *********************************************/
 
@@ -80,6 +80,9 @@ export function createDomain(domainName, domainId, favIconUrl) {
     },
     get icon() {
       return icon;
+    },
+    printTime: function () {
+      console.log("you just accessed a print method");
     },
   };
 }

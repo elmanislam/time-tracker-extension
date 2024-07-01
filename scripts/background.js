@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-06-29 16:11:56
+ Last Modification Date: 2024-06-29 16:20:40
 
 *********************************************/
 import { createDomain, DEFAULT_ICON } from "./domain.mjs";
@@ -58,12 +58,14 @@ async function getCurrentTab(window) {
       dom.updateIcon(tab.favIconUrl);
 
     dom.startTimer();
+    dom.printTime();
   }
 
   setDomainName();
   storeDomainList();
 }
 function getDomainName(url) {
+  if (!url || url === "") return null;
   try {
     const parsedUrl = new URL(url);
     return parsedUrl.hostname;
