@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:58:34
- Last Modification Date: 2024-06-30 13:12:45
+ Last Modification Date: 2024-07-01 22:48:32
 
 View Extension index page here --> chrome-extension://gffnjaobgldhllbkpkijfdnmllmklcib/index.html
 *********************************************/
@@ -39,8 +39,10 @@ function makeDomainCard(dom) {
   if (!dom || !template) return;
   const domainCard = template.content.cloneNode(true);
   domainCard.querySelector(".domain-icon").src = dom.icon;
+  // TO DO: fix bug with google icon not showing
   if (dom.name === "google.com") {
-    domainCard.querySelector(".domain-icon").src = "../img/logo-32.png";
+    domainCard.querySelector(".domain-icon").src =
+      "https://icons.duckduckgo.com/ip3/www.google.com.ico";
   }
 
   domainCard.querySelector(".domain-name").textContent = dom.name;

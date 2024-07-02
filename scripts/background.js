@@ -3,22 +3,45 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-06-29 16:20:40
+ Last Modification Date: 2024-07-02 18:26:44
 
 *********************************************/
 import { createDomain, DEFAULT_ICON } from "./domain.mjs";
+import { createDomainList } from "./domainList.mjs";
 
-chrome.runtime.onInstalled.addListener(() => {
-  console.log("you just installed time tracker");
-});
+let addEventListeners = (function () {
+  // onboarding for extension download
+  chrome.runtime.onInstalled.addListener(() => {
+    console.log("you just installed time tracker");
+  });
 
-chrome.tabs.onActivated.addListener(getCurrentTab);
-chrome.tabs.onUpdated.addListener(getCurrentTab);
-chrome.windows.onFocusChanged.addListener(getCurrentTab);
+  // event listener for time-tracker.js
+  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    // stop timer and store domain when time-tracker popup opens
+    if (request.popup) {
+      let dom = domainList[currentDomain];
+      if (dom) {
+        dom.stopTimer();
+        setDomainName();
+        storeDomainList();
+      }
+    }
+    // Return true to indicate you want to send a response asynchronously
+    sendResponse("good");
+  });
+
+  // event listeners for tab and window changes
+  chrome.tabs.onActivated.addListener(getCurrentTab);
+  chrome.tabs.onUpdated.addListener(getCurrentTab);
+  chrome.windows.onFocusChanged.addListener(getCurrentTab);
+})();
 
 let currentDomain = "default";
 let domainList = {};
 let count = 0;
+
+const myDomains = createDomainList();
+
 async function getCurrentTab(window) {
   // check if no window is open or focused
   if (window == chrome.windows.WINDOW_ID_NONE) {
@@ -28,7 +51,6 @@ async function getCurrentTab(window) {
     setDomainName();
     storeDomainList();
     // no tab is being focused
-
     return;
   }
 
@@ -49,9 +71,11 @@ async function getCurrentTab(window) {
   dom = domainList[currentDomain];
 
   if (!dom) {
+    // add a newly visited domain
     const tempDomain = createDomain(currentDomain, count++, tab.favIconUrl);
     tempDomain.startTimer();
     domainList[currentDomain] = tempDomain;
+    myDomains.add(tempDomain);
   } else {
     // Update icon if it was not added properly
     if (dom.icon === DEFAULT_ICON && tab.favIconUrl && tab.favIconUrl !== "")
@@ -59,6 +83,7 @@ async function getCurrentTab(window) {
 
     dom.startTimer();
     dom.printTime();
+    console.log(myDomains);
   }
 
   setDomainName();
@@ -83,16 +108,3 @@ function setDomainName() {
 function storeDomainList() {
   chrome.storage.local.set({ domList: domainList });
 }
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.popup) {
-    let dom = domainList[currentDomain];
-    if (dom) {
-      dom.stopTimer();
-      setDomainName();
-      storeDomainList();
-    }
-  }
-  // Return true to indicate you want to send a response asynchronously
-  sendResponse("good");
-});

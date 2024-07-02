@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:57:28
- Last Modification Date: 2024-06-30 20:52:10
+ Last Modification Date: 2024-06-30 21:10:11
 
 *********************************************/
 
@@ -16,13 +16,13 @@ export const DEFAULT_ICON = "../img/no-icon-32.png";
  * @param domainId id for the domain
  * @returns domain object with timer methods and domain information
  */
-export function createDomain(domainName, domainId, favIconUrl) {
+export function createDomain(domainName, domainId, favIconUrl, time = 0) {
   // attributes
 
   const name = domainName;
   const id = domainId;
   let icon = favIconUrl || DEFAULT_ICON;
-  let totalTime = 0; // total time spent on the domain in seconds
+  let totalTime = time; // total time spent on the domain in seconds
   let startTime = 0; // to keep track of the start time
   let stopwatchInterval; // to keep track of the interval
   let formattedTime = "0 sec";
