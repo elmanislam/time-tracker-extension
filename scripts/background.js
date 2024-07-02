@@ -3,12 +3,12 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-07-02 18:26:44
+ Last Modification Date: 2024-07-02 19:04:08
 
 *********************************************/
 import { createDomain, DEFAULT_ICON } from "./domain.mjs";
-import { createDomainList } from "./domainList.mjs";
 
+import { DomainList } from "./domList.mjs";
 let addEventListeners = (function () {
   // onboarding for extension download
   chrome.runtime.onInstalled.addListener(() => {
@@ -40,7 +40,7 @@ let currentDomain = "default";
 let domainList = {};
 let count = 0;
 
-const myDomains = createDomainList();
+var myDomains = Object.create(DomainList).init("myDomains");
 
 async function getCurrentTab(window) {
   // check if no window is open or focused
@@ -75,7 +75,7 @@ async function getCurrentTab(window) {
     const tempDomain = createDomain(currentDomain, count++, tab.favIconUrl);
     tempDomain.startTimer();
     domainList[currentDomain] = tempDomain;
-    myDomains.add(tempDomain);
+    myDomains.add(tempDomain, currentDomainName);
   } else {
     // Update icon if it was not added properly
     if (dom.icon === DEFAULT_ICON && tab.favIconUrl && tab.favIconUrl !== "")
