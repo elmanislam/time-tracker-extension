@@ -3,32 +3,55 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-07-02 18:26:44
+ Last Modification Date: 2024-07-03 19:43:49
 
 *********************************************/
 import { createDomain, DEFAULT_ICON } from "./domain.mjs";
 import { createDomainList } from "./domainList.mjs";
 
-let addEventListeners = (function () {
+let myDomains;
+let currentDomainName = null;
+let domainList = {};
+let count = 0;
+
+const readLocalStorage = async (key) => {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get([key], function (result) {
+      if (result[key] === undefined) {
+        reject();
+      } else {
+        resolve(result[key]);
+      }
+    });
+  });
+};
+
+let addEventListeners = (async function () {
   // onboarding for extension download
   chrome.runtime.onInstalled.addListener(() => {
     console.log("you just installed time tracker");
   });
 
-  // event listener for time-tracker.js
-  chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    // stop timer and store domain when time-tracker popup opens
-    if (request.popup) {
-      let dom = domainList[currentDomain];
-      if (dom) {
-        dom.stopTimer();
-        setDomainName();
-        storeDomainList();
+  let tempList = await readLocalStorage("domList"); // load stored data into myDomains structure if previous data exists
+
+  console.log("loaded: ", tempList);
+
+  myDomains = createDomainList(tempList);
+  console.log("running test: ");
+  myDomains.test();
+
+  myDomains.storeList();
+
+  chrome.runtime.onMessage // event listener for time-tracker.js
+    .addListener((request, sender, sendResponse) => {
+      // stop timer and store domain when time-tracker popup opens
+      if (request.popup) {
+        myDomains.stopTimer(currentDomainName);
+        myDomains.storeList();
       }
-    }
-    // Return true to indicate you want to send a response asynchronously
-    sendResponse("good");
-  });
+      // Return true to indicate you want to send a response asynchronously
+      sendResponse("good");
+    });
 
   // event listeners for tab and window changes
   chrome.tabs.onActivated.addListener(getCurrentTab);
@@ -36,20 +59,12 @@ let addEventListeners = (function () {
   chrome.windows.onFocusChanged.addListener(getCurrentTab);
 })();
 
-let currentDomain = "default";
-let domainList = {};
-let count = 0;
-
-const myDomains = createDomainList();
-
 async function getCurrentTab(window) {
   // check if no window is open or focused
   if (window == chrome.windows.WINDOW_ID_NONE) {
-    let dom = domainList[currentDomain];
-    if (dom) dom.stopTimer();
+    myDomains.stopTimer(currentDomainName);
+    myDomains.storeList();
 
-    setDomainName();
-    storeDomainList();
     // no tab is being focused
     return;
   }
@@ -60,34 +75,17 @@ async function getCurrentTab(window) {
   // there are no tabs
   if (!tab) return;
 
-  let dom = domainList[currentDomain];
-  if (dom) dom.stopTimer();
+  myDomains.stopTimer(currentDomainName);
 
-  currentDomain = getDomainName(tab.url);
-
+  currentDomainName = getDomainName(tab.url);
+  myDomains.setCurrDom(currentDomainName);
   // page is loading or is invalid
-  if (!currentDomain) return;
+  if (!currentDomainName) return;
 
-  dom = domainList[currentDomain];
+  myDomains.addOrStartTimer(currentDomainName, tab.favIconUrl);
 
-  if (!dom) {
-    // add a newly visited domain
-    const tempDomain = createDomain(currentDomain, count++, tab.favIconUrl);
-    tempDomain.startTimer();
-    domainList[currentDomain] = tempDomain;
-    myDomains.add(tempDomain);
-  } else {
-    // Update icon if it was not added properly
-    if (dom.icon === DEFAULT_ICON && tab.favIconUrl && tab.favIconUrl !== "")
-      dom.updateIcon(tab.favIconUrl);
-
-    dom.startTimer();
-    dom.printTime();
-    console.log(myDomains);
-  }
-
-  setDomainName();
-  storeDomainList();
+  myDomains.storeList(currentDomainName);
+  // myDomains.test();
 }
 function getDomainName(url) {
   if (!url || url === "") return null;
@@ -99,12 +97,4 @@ function getDomainName(url) {
     return null;
   }
   // return tab.url.replace(/.+\/\/|www.|\..+/g, "").trim();
-}
-
-function setDomainName() {
-  chrome.storage.local.set({ currentDomainName: currentDomain });
-}
-
-function storeDomainList() {
-  chrome.storage.local.set({ domList: domainList });
 }

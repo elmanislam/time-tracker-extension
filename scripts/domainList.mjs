@@ -1,12 +1,13 @@
-/*
-
+/*********************************************
  Author: Elman I.
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-26 11:06:20
- Last Modification Date: 2024-07-02 18:36:39
+ Last Modification Date: 2024-07-03 19:46:00
 
-*/
+*********************************************/
+
+import { createDomain, DEFAULT_ICON } from "./domain.mjs";
 
 /**
  * returns a domain object containing the domain name, icon, total time spent,
@@ -20,20 +21,36 @@ export function createDomainList(listStructure = {}) {
 
   let count = 0;
   let currDomName = "default";
-  let list = {};
+  let list = {}; // list of domains
+
+  // load optional stored data into list
   for (const [name, dom] of Object.entries(listStructure)) {
-    list[name] = createDomain(dom.name, dom.id, dom.icon, dom.time);
+    list[name] = createDomain(dom.name, count++, dom.icon, dom.totalTime);
   }
 
-  function add(newDomain) {
-    return (list[newDomain.name] = newDomain);
-  }
-  function get(name) {
-    return list[name];
+  function addOrStartTimer(domName, newDomIcon) {
+    let dom = list[domName];
+
+    if (!dom) {
+      // add a newly visited domain
+      const tempDomain = createDomain(domName, count++, newDomIcon);
+      tempDomain.startTimer();
+      list[domName] = tempDomain;
+    } else {
+      // update icon if it was not added properly
+      if (dom.icon === DEFAULT_ICON && newDomIcon && newDomIcon !== "")
+        dom.updateIcon(newDomIcon);
+
+      dom.startTimer();
+    }
   }
 
-  function stopTimer(name) {
-    let dom = list[name];
+  function test() {
+    console.log(toJSON());
+  }
+
+  function stopTimer(domName) {
+    let dom = list[domName];
     if (!dom) return false;
     try {
       dom.stopTimer();
@@ -44,32 +61,37 @@ export function createDomainList(listStructure = {}) {
     }
   }
 
-  function setCurrDom(newCurr) {
-    currentDomain = newCurr;
+  function setCurrDom(newCurr = null) {
+    currDomName = newCurr;
+
     return true;
   }
 
-  function storeList() {
-    chrome.storage.local.set({ domList: domainList });
+  function storeList(domName = null) {
+    const domainListData = toJSON();
+    chrome.storage.local.set({ domList: domainListData });
+    return setCurrDom(domName);
   }
 
   function toJSON() {
     let data = {};
     for (const [name, dom] of Object.entries(list)) {
-      data[name] = [dom.name, dom.id, dom.icon, dom.totalTime];
+      data[name] = {
+        name: name,
+        id: dom.id,
+        icon: dom.icon,
+        totalTime: dom.totalTime,
+      };
     }
 
     return data;
   }
+
   return {
-    setCurrDom,
-    add,
-    get,
-    toJSON,
+    addOrStartTimer,
     storeList,
-    list,
-    get curr() {
-      return currDomName;
-    },
+    test,
+    setCurrDom,
+    stopTimer,
   };
 }
