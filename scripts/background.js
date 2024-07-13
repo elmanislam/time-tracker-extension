@@ -3,16 +3,13 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-07-03 19:43:49
+ Last Modification Date: 2024-07-12 20:32:23
 
 *********************************************/
-import { createDomain, DEFAULT_ICON } from "./domain.mjs";
 import { createDomainList } from "./domainList.mjs";
 
 let myDomains;
 let currentDomainName = null;
-let domainList = {};
-let count = 0;
 
 const readLocalStorage = async (key) => {
   return new Promise((resolve, reject) => {
@@ -26,7 +23,7 @@ const readLocalStorage = async (key) => {
   });
 };
 
-let addEventListeners = (async function () {
+(async function () {
   // onboarding for extension download
   chrome.runtime.onInstalled.addListener(() => {
     console.log("you just installed time tracker");
