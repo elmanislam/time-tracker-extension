@@ -2,12 +2,10 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-23 11:51:42
- Last Modification Date: 2024-06-30 20:32:55
+ Last Modification Date: 2024-07-30 19:32:46
 
 
 TO DO
 
-- Fix service worker inactive bug
 - Add error handling in all files
-- Reload time history on reboot
 - Create test cases

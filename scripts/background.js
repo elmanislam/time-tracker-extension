@@ -3,19 +3,19 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-07-12 20:32:23
+ Last Modification Date: 2024-07-28 16:41:01
 
 *********************************************/
-import { createDomainList } from "./domainList.mjs";
+import { createDomainList } from "./domain-list.mjs";
 
 let myDomains;
 let currentDomainName = null;
 
 const readLocalStorage = async (key) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     chrome.storage.local.get([key], function (result) {
       if (result[key] === undefined) {
-        reject();
+        resolve({});
       } else {
         resolve(result[key]);
       }
@@ -28,8 +28,9 @@ const readLocalStorage = async (key) => {
   chrome.runtime.onInstalled.addListener(() => {
     console.log("you just installed time tracker");
   });
+  // load stored data from previous browsing sessions into 'myDomains' list structure
 
-  let tempList = await readLocalStorage("domList"); // load stored data into myDomains structure if previous data exists
+  let tempList = await readLocalStorage("domList");
 
   console.log("loaded: ", tempList);
 
@@ -41,13 +42,20 @@ const readLocalStorage = async (key) => {
 
   chrome.runtime.onMessage // event listener for time-tracker.js
     .addListener((request, sender, sendResponse) => {
+      let userConfigData = {
+        theme: "light",
+      };
       // stop timer and store domain when time-tracker popup opens
-      if (request.popup) {
+      if (request.isPopup) {
         myDomains.stopTimer(currentDomainName);
         myDomains.storeList();
       }
+
+      if (request.requestUserConfig) {
+        userConfigData = {};
+      }
       // Return true to indicate you want to send a response asynchronously
-      sendResponse("good");
+      sendResponse(userConfigData);
     });
 
   // event listeners for tab and window changes
