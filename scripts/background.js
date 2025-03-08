@@ -3,7 +3,7 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:59:03
- Last Modification Date: 2024-07-28 16:41:01
+ Last Modification Date: 2025-03-08 00:46:14
 
 *********************************************/
 import { createDomainList } from "./domain-list.mjs";
@@ -23,12 +23,21 @@ const readLocalStorage = async (key) => {
   });
 };
 
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+  if (request.message === "deleteData") {
+    myDomains = createDomainList();
+  }
+});
+
 (async function () {
   // onboarding for extension download
   chrome.runtime.onInstalled.addListener(() => {
     console.log("you just installed time tracker");
   });
   // load stored data from previous browsing sessions into 'myDomains' list structure
+
+  // This line deletes user storage
+  // chrome.storage.local.remove("domList");
 
   let tempList = await readLocalStorage("domList");
 

@@ -3,12 +3,13 @@
  Email: elmanislam123@gmail.com
 
  Creation Date: 2024-06-22 10:58:34
- Last Modification Date: 2024-07-30 20:25:52
+ Last Modification Date: 2025-03-08 00:50:47
 
 View Extension index page here --> chrome-extension://gffnjaobgldhllbkpkijfdnmllmklcib/index.html
 *********************************************/
+DELETEBUTTON = "delete-button";
 
-(async function () {
+(async function bruh() {
   document.addEventListener("DOMContentLoaded", function () {
     chrome.runtime.sendMessage(
       { isPopup: true, requestUserConfig: true },
@@ -33,7 +34,6 @@ async function getData() {
   });
 }
 
-function makeGraph() {}
 function makeDomainCard(dom) {
   const template = document.getElementById("domain-card-template");
   if (!dom || !template) return;

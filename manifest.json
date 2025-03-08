@@ -29,7 +29,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["scripts/time-tracker.js"]
+      "js": ["scripts/time-tracker.js", "scripts/helper-functions.js"]
     }
   ]
 }

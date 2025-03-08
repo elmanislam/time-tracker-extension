@@ -29,7 +29,7 @@
 }
 
 body {
-  width: 250px;
+  width: 275px;
 
   margin: 1em;
   font-family: "Nunito", sans-serif;
@@ -51,11 +51,12 @@ body > * {
 header {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
   gap: 10px;
   margin-top: 1.5em;
   margin-bottom: 1.5em;
   flex-flow: row nowrap;
+  align-items: center;
 }
 
 .justify-end {
@@ -87,6 +88,7 @@ h1 {
   font-size: 2em;
   white-space: nowrap;
   overflow: hidden;
+  justify-self: start;
 }
 
 h1,
@@ -129,4 +131,25 @@ element {
   box-sizing: border-box;
   height: 513.85px;
   width: 514.567px;
+}
+
+.toggle-button {
+  width: 24px;
+  height: 24px;
+  background-color: default;
+  transition: background-color 1s ease;
+  border-radius: 25%;
+}
+
+.button-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  gap: 2px;
+}
+
+.toggle-button:hover {
+  background-color: #8f87876c;
 }
