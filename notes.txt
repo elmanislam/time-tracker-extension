@@ -1,0 +1,19 @@
+/*
+
+ Author: Elman I.
+ Email: elmanislam123@gmail.com
+
+ Creation Date: 2025-07-15 22:42:25
+ Last Modification Date: 2025-07-16 17:22:27
+
+ 
+
+*/
+
+Vite Guidelines
+
+   npm create vite@latest -> create a new vite project
+   npm install - install packages
+   npm run dev - run project as developer
+   npm run build - build project
+
