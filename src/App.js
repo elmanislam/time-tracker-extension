@@ -58,6 +58,7 @@ function App() {
          {userDomainList && (
             <DomainCardContainer userDomainList={userDomainList} />
          )}
+
          <template id="domain-card-template">
             <div class="domain-card box-color">
                <img class="domain-icon icon-32" />
