@@ -53,7 +53,6 @@ function App() {
          </header>
          <div class="card box-color">
             <h2>Your Top Sites</h2>
-            <h3>bruh!</h3>
          </div>
          {userDomainList && (
             <DomainCardContainer userDomainList={userDomainList} />
