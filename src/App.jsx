@@ -5,21 +5,21 @@
  * File Created: Saturday, 30th May 2026 4:02:14 pm
  * Author: Elman Islam (elmanislam123@gmail.com)
  * -----
- * Last Modified: Sunday, 31st May 2026 2:02:56 pm
+ * Last Modified: Sunday, 31st May 2026 3:44:48 pm
  * Modified By: Elman Islam (elmanislam123@gmail.com)
  * -----
  * Copyright (c) 2026 Ilma Co.
  * ----------	---	---------------------------------------------------------
  */
 
-import React, { useEffect, useState } from 'react';
-import "./App.css";
-import "./styles/styles.css";
-import DarkModeButton from "./components/DarkModeButton";
-import { setTheme } from "./components/DarkModeButton";
 
-import DomainCardContainer from "./components/DomainCardContainer";
+import React, { useEffect, useState } from 'react';
+import './App.css'
+import DarkModeButton from "./components/DarkModeButton.jsx";
+import { setTheme } from "./components/DarkModeButton.jsx";
+import DomainCardContainer from "./components/DomainCardContainer.jsx";
 import { DOMLIST, themelbs } from "./labels/labels.js";
+import "./styles/styles.css"
 function App() {
 
    const [userDomainList, setUserDomainList] = useState(null);
@@ -45,10 +45,11 @@ function App() {
 
    return (
       <div class="body-color">
+
          <header>
             <img src="img/logo-32.png" />
-            <h1>
-               <strong>Time</strong> Tracker
+            <h1 class="text-2xl">
+               <b>Time</b> Tracker
             </h1>
             <div class="button-panel">
                <button id="delete-button" class="toggle-button icon-32 justify-end">
@@ -58,7 +59,7 @@ function App() {
             </div>
          </header>
          <div class="card box-color">
-            <h2 className="text-xl">Your Top Sites</h2>
+            <h2 class="text-xl">Your Top Sites</h2>
          </div>
          {userDomainList && (
             <DomainCardContainer userDomainList={userDomainList} />

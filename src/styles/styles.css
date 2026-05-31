@@ -9,6 +9,7 @@
 
 html {
   background: var(--color-primary);
+  color: var(--color-font);
 }
 
 .body-color {
@@ -70,6 +71,7 @@ header {
 .card {
   padding: 0.75em;
   border-bottom: 2px inset rgb(0, 0, 69);
+  border-radius: 0em;
 }
 
 .domain-card {
@@ -86,48 +88,6 @@ header {
 .info {
   display: flex;
   flex-flow: column nowrap;
-}
-
-h1 {
-  font-size: 2em;
-  white-space: nowrap;
-  overflow: hidden;
-  justify-self: start;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: 200;
-  color: var(--color-font);
-  margin: 0px;
-  padding: 0px;
-}
-
-strong {
-  font-weight: 700;
-}
-p {
-  color: var(--color-font);
-}
-svg {
-  color: var(--color-font);
-}
-
-button {
-  padding: 4px;
-  border: none;
-  background-color: var(--color-primary);
-  cursor: pointer;
-}
-
-#chart1 {
-  display: inline-block;
-  position: relative;
-  width: 50%;
 }
 
 element {
