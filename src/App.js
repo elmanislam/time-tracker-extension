@@ -1,21 +1,25 @@
 /*
+ * ----------	---	---------------------------------------------------------
+ * File: App.jsx
+ * Project: time-tracker
+ * File Created: Saturday, 30th May 2026 4:02:14 pm
+ * Author: Elman Islam (elmanislam123@gmail.com)
+ * -----
+ * Last Modified: Sunday, 31st May 2026 2:02:56 pm
+ * Modified By: Elman Islam (elmanislam123@gmail.com)
+ * -----
+ * Copyright (c) 2026 Ilma Co.
+ * ----------	---	---------------------------------------------------------
+ */
 
- Author: Elman I.
- Email: elmanislam123@gmail.com
-
- Creation Date: 2025-07-19 16:07:09
- Last Modification Date: 2025-07-20 21:53:25
-
- 
-
-*/
-
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import "./App.css";
 import "./styles/styles.css";
 import DarkModeButton from "./components/DarkModeButton";
+import { setTheme } from "./components/DarkModeButton";
+
 import DomainCardContainer from "./components/DomainCardContainer";
-const DOMLIST = "domList";
+import { DOMLIST, themelbs } from "./labels/labels.js";
 function App() {
 
    const [userDomainList, setUserDomainList] = useState(null);
@@ -27,9 +31,11 @@ function App() {
          { isPopup: true, requestUserConfig: true },
          function (response) {
             window.chrome.storage.local.get(
-               [DOMLIST],
+               [DOMLIST, themelbs.theme],
                (result) => {
                   setUserDomainList(result[DOMLIST] || null);
+                  setTheme(result[themelbs.theme] || themelbs.light);
+                  console.log("user config is ", result);
                }
             );
          }
@@ -52,7 +58,7 @@ function App() {
             </div>
          </header>
          <div class="card box-color">
-            <h2>Your Top Sites</h2>
+            <h2 className="text-xl">Your Top Sites</h2>
          </div>
          {userDomainList && (
             <DomainCardContainer userDomainList={userDomainList} />

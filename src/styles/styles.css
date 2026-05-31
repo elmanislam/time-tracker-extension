@@ -1,10 +1,14 @@
 @import url(//fonts.googleapis.com/css?family=Nunito);
 
 :root {
-  --color-primary: #f4f4f4;
+  --color-primary: #ffffff;
   --color-secondary: #ffffff;
   --color-icon: #000000;
   --color-font: #000000;
+}
+
+html {
+  background: var(--color-primary);
 }
 
 .body-color {
@@ -137,7 +141,6 @@ element {
   width: 24px;
   height: 24px;
   background-color: default;
-  transition: background-color 1s ease;
   border-radius: 25%;
 }
 
@@ -148,8 +151,4 @@ element {
   align-items: center;
 
   gap: 2px;
-}
-
-.toggle-button:hover {
-  background-color: #8f87876c;
 }

@@ -17,3 +17,11 @@ Vite Guidelines
    npm run dev - run project as developer
    npm run build - build project
 
+tailwind classnames
+ https://tailwindcss.com/docs/styling-with-utility-classes
+ https://tailwind.build/classes
+Use Daisy UI
+ https://daisyui.com/docs/intro/
+
+ React docs
+ https://reactnative.dev/docs/button 

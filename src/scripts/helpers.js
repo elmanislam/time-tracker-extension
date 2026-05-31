@@ -1,11 +1,11 @@
 /*
  * ----------	---	---------------------------------------------------------
  * File: helpers.js
- * Project: chrome-extension
+ * Project: time-tracker
  * File Created: Saturday, 30th May 2026 4:18:27 pm
  * Author: Elman Islam (elmanislam123@gmail.com)
  * -----
- * Last Modified: Saturday, 30th May 2026 4:20:43 pm
+ * Last Modified: Sunday, 31st May 2026 1:40:13 pm
  * Modified By: Elman Islam (elmanislam123@gmail.com)
  * -----
  * Copyright (c) 2026 Ilma Co.
